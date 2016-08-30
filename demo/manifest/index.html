@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans" manifest="manifest.appcache">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="format-detection" content="telephone=no,address=no,email=no">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title> manifest </title>
+    <script micro-app src="/micro-app.min.js" capable icon="icon.jpg#autosize"></script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        header {
+            height: 185px;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-image: url(icon.jpg);
+        }
+        h3 {
+            font-size: 0;
+            height: 38px;
+            text-align: center;
+        }
+        span {
+            padding: 0 5px;
+            font-size: 28px;
+            font-weight: 300;
+            line-height: 36px;
+            border-radius: 10px;
+            display: inline-block;
+            border: 1px solid currentColor;
+        }
+        span:empty {
+            border: none;
+        }
+        h2 {
+            margin: 0;
+            height: 32px;
+            font-size: 20px;
+            margin-top: 10px;
+            font-weight: 300;
+            line-height: 32px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header></header>
+    <h3><span></span></h3>
+    <h2></h2>
+    <ul></ul>
+    <script type="text/javascript">
+        (function () {
+            var span = document.getElementsByTagName('span')[0];
+            if (navigator.onLine) {
+                span.innerHTML = 'onLine';
+            } else {
+                span.style.color = '#aaa';
+                span.innerHTML = 'offline';
+            }
+        })();
+    </script>
+    <script type="text/javascript">
+        (function () {
+            var cache = applicationCache;
+            var msg = ['未缓存','已缓存','检查中','正在缓存','缓存更新成功','缓存已过期'];
+            var text = document.getElementsByTagName('h2')[0];
+            var message = document.getElementsByTagName('ul')[0];
+            function update ( event ) {
+                text.innerHTML = '缓存状态:' + msg[cache.status];
+                if (event) {
+                    var li = document.createElement('li');
+                    li.innerHTML = '触发事件:' + event.type;
+                    message.appendChild(li);
+                }
+            };
+            [
+                'cached',
+                'checking',
+                'downloading',
+                'error',
+                'noupdate',
+                'obsolete',
+                'progress',
+                'updateready',
+            ].forEach(function (type) {
+                cache.addEventListener(type, update, false);
+            });
+            update();
+        })();
+    </script>
+</body>
+</html>

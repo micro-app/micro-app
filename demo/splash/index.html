@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="format-detection" content="telephone=no,address=no,email=no">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title> splash </title>
+    <script micro-app src="/micro-app.min.js" capable icon="icon.jpg#autosize"></script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            background-color: #fdfffe;
+        }
+        .content {
+            position: absolute;
+            height: 100px;
+            width: 100%;
+            line-height: 100px;
+            font-size: 40px;
+            text-align: center;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+        .splash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            opacity: 0;
+            transition: opacity 1300ms;
+        }
+        body.splash-prepare .content {
+            visibility: hidden;
+        }
+        body.splash-start .splash {
+            opacity: 1;
+        }
+        body.splash-end .content {
+            visibility: visible;
+        }
+        body.splash-end .splash {
+            opacity: 0;
+        }
+        body.splash-finish .splash {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <script type="text/javascript">
+    if (navigator.standalone) {
+        document.body.classList.add('splash-prepare');
+        document.addEventListener('DOMContentLoaded', function () {
+            var img = new Image;
+            img.onload = function () {
+                var splash = document.createElement('div');
+                splash.classList.add('splash');
+                document.body.appendChild(splash);
+                splash.style.backgroundImage = 'url(' + img.src + ')';
+                setTimeout(function () {
+                    document.body.classList.add('splash-start');
+                    setTimeout(function () {
+                        document.body.classList.add('splash-end');
+                        setTimeout(function () {
+                            document.body.classList.add('splash-finish');
+                        }, 1300);
+                    }, 1500);
+                }, 50);
+            };
+            img.src = './splash.jpg';
+        }, false);
+    }
+    </script>
+    <div class="content">hello world!</div>
+</body>
+</html>

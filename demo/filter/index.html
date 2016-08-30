@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-cmn-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimum-scale=1.0, maximum-scale=1.0">
+    <meta name="description" content="">
+    <meta name="keywords" content="">
+    <meta name="format-detection" content="telephone=no,address=no,email=no">
+    <meta http-equiv="Cache-Control" content="no-transform">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title> filters </title>
+    <script micro-app src="/micro-app.min.js" capable></script>
+    <script type="text/javascript">
+        // Your custom filter
+        microApp.filter(
+            'log',
+            function () {
+                console.log(this, arguments);
+            }
+        );
+        // Return `false` to interrupt the rest filter
+        microApp.filter(
+            'interrupt',
+            function () {
+                if (true) {
+                    console.log('interrupt');
+                    return false;
+                }
+            }
+        );
+        // Use filter by hash `#` and split filters by `|` and past the argument by `()`
+        // The arguments format like JSON
+        microApp.icon = 'icon.jpg#precomposed|log("test1", "test2")|interrupt|log("test3", "test4")';
+    </script>
+    <style>
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+        }
+        div {
+            position: absolute;
+            height: 100px;
+            width: 100%;
+            line-height: 100px;
+            font-size: 40px;
+            text-align: center;
+            top: 50%;
+            left: 0;
+            transform: translateY(-50%);
+        }
+    </style>
+</head>
+<body>
+    <div>hello world!</div>
+</body>
+</html>

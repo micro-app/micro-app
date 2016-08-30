@@ -1,0 +1,12 @@
+CACHE MANIFEST
+# timestamp 1468941914493
+
+CACHE:
+/manifest/index.html
+/manifest/icon.jpg
+/micro-app.min.js
+
+NETWORK:
+*
+
+FALLBACK:
