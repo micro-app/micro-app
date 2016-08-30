@@ -1,6 +1,6 @@
 {
   "name": "micro-app",
-  "version": "0.0.7",
+  "version": "0.0.8",
   "description": "[iOS] Integrated Safari features about web app.",
   "main": "dist/micro-app.min.js",
   "scripts": {
@@ -9,18 +9,21 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/lixinliang/micro-app.git"
+    "url": "git+https://github.com/micro-app/micro-app.git"
   },
   "keywords": [
     "micro-app",
     "web-app"
   ],
-  "author": "lixinliang",
+  "author": {
+    "name": "lixinliang",
+    "url": "https://github.com/lixinliang"
+  },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/lixinliang/micro-app/issues"
+    "url": "https://github.com/micro-app/micro-app/issues"
   },
-  "homepage": "https://github.com/lixinliang/micro-app#readme",
+  "homepage": "https://github.com/micro-app/micro-app#readme",
   "dependencies": {},
   "devDependencies": {
     "autoprefixer-loader": "^3.2.0",
