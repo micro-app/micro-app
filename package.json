@@ -1,6 +1,6 @@
 {
   "name": "micro-app",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "description": "[iOS] Integrated Safari features about web app.",
   "main": "dist/micro-app.min.js",
   "scripts": {
