@@ -1,14 +1,15 @@
 'use strict';
 
 let path = require('path');
+let moment = require('moment');
 let webpack = require('webpack');
 let packageJson = require('../package.json');
 
 const banner =
 `@ProjectName ${ packageJson.name }
 @Version ${ packageJson.version }
-@Author ${ packageJson.author }
-@Update ${ new Date }`;
+@Author ${ packageJson.author.name }(${ packageJson.author.url })
+@Update ${ moment().format('YYYY-MM-DD h:mm:ss a') }`;
 
 const filename = 'micro-app';
 const moduleName = 'microApp';
