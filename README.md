@@ -1,10 +1,15 @@
 # micro-app
-> Integrated Safari features about web app.
+> [📱iOS] Create Web App Dynamic!! (9k)
+
+## Try it now
+
+* Open [https://micro-app.github.io/](https://micro-app.github.io/) in Safari.
 
 ## Getting started
 ```
 $ npm install micro-app
 ```
+
 ## Demo
 ```
 $ npm cd node_modules
