@@ -2,10 +2,10 @@ let hashStorage = {};
 
 if (location.hash) {
     let hash = decodeURIComponent(location.hash.substring(1));
-    hash.split('&').forEach(( keyValue ) => {
-        let temp = keyValue.split('=');
-        let key = temp[0];
-        let value = temp[1];
+    hash.split('&').forEach(( expression ) => {
+        let keyValue = expression.split('=');
+        let key = keyValue[0];
+        let value = keyValue[1];
         if (value === void 0) {
             value = '';
         }
