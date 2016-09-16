@@ -1,6 +1,6 @@
 const { setAttribute, removeAttribute } = Element.prototype;
 
-exports.setAttribute = function ( attribute, value ) {
+exports.attr = function ( attribute, value ) {
     if (value === null) {
         this::removeAttribute(attribute);
     } else {
