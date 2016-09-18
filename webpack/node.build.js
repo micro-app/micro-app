@@ -5,9 +5,9 @@ let path = require('path');
 let fse = require('fs-extra');
 let shell = require('shelljs');
 let colors = require('colors');
-let concat = require('./concat');
+let packageJson = require('../package.json');
 
-const filename = 'micro-app';
+const filename = packageJson.name;
 
 Promise.prototype.done = function ( onFulfilled, onRejected ) {
 	this
@@ -35,8 +35,6 @@ Promise.prototype.done = function ( onFulfilled, onRejected ) {
 			resolve();
 		});
 	});
-}).then(() => {
-	return concat;
 }).then(() => {
     return new Promise(( resolve, reject ) => {
 		let result = shell.exec('webpack --progress --colors --config ./webpack/webpack.build.js');
