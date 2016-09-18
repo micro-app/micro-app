@@ -4,9 +4,9 @@ let fs = require('fs');
 let path = require('path');
 let fse = require('fs-extra');
 let shell = require('shelljs');
-let concat = require('./concat');
+let packageJson = require('../package.json');
 
-const filename = 'micro-app';
+const filename = packageJson.name;
 
 let entry = {};
 
@@ -32,8 +32,6 @@ Promise.prototype.done = function ( onFulfilled, onRejected ) {
         }
         resolve();
     });
-})).then(() => {
-	return concat;
 }).then(() => {
 	return new Promise(( resolve, reject ) => {
 		fs.readFile(path.join(__dirname, `../dist/${ filename }.min.js`), 'utf8', ( err, data ) => {

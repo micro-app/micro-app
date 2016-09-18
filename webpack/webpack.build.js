@@ -11,7 +11,7 @@ const banner =
 @Author ${ packageJson.author.name }(${ packageJson.author.url })
 @Update ${ moment().format('YYYY-MM-DD h:mm:ss a') }`;
 
-const filename = 'micro-app';
+const filename = packageJson.name;
 const moduleName = 'microApp';
 
 module.exports = {
