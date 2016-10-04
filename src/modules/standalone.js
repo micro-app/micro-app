@@ -1,10 +1,13 @@
 import {
-    // A shortcut to get or set hash param
-    hash,
+    // Save or load the data
+    data,
 } from './util';
 
+/**
+ * [dispatch Event `redirect`]
+ */
 exports.standalone = function () {
-    let url = hash('href');
+    let url = data('href');
     if (url) {
         // Before redirect, dispatchEvent on `window`
         let redirectEvent = document.createEvent('CustomEvent');

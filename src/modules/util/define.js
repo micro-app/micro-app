@@ -1,4 +1,10 @@
-exports.defineStaticProperty = function ( name, value ) {
+/**
+ * [Define static property]
+ * @param  {[String]} name   [property name]
+ * @param  {[AnyType]} value [property value]
+ * @return {[Object]}        [object]
+ */
+exports.define = function ( name, value ) {
     Object.defineProperty(
         this,
         name,

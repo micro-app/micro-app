@@ -4,7 +4,7 @@ let path = require('path');
 let webpack = require('webpack');
 let extractTextPlugin = require('extract-text-webpack-plugin');
 
-const filename = 'micro-app';
+const filename = packageJson.name;
 
 let entry = require('./entry.js');
 let alias = {};

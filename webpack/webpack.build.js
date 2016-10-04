@@ -11,15 +11,14 @@ const banner =
 @Author ${ packageJson.author.name }(${ packageJson.author.url })
 @Update ${ moment().format('YYYY-MM-DD h:mm:ss a') }`;
 
-const filename = 'micro-app';
-const moduleName = 'microApp';
+const filename = packageJson.name;
 
 module.exports = {
     entry : `./src/${ filename }.js`,
     output : {
         path : './dist/',
         filename : `${ filename }.min.js`,
-        library : `${ moduleName }`,
+        library : filename.replace(/-./g, ( match ) => match[1].toUpperCase()),
         libraryTarget : 'umd',
     },
     extensions : ['.js'],

@@ -1,7 +1,7 @@
 {
   "name": "micro-app",
-  "version": "0.0.9",
-  "description": "[iOS] Integrated Safari features about web app.",
+  "version": "0.0.10",
+  "description": "[📱iOS] Create Web App Dynamically!! (~9kb)",
   "main": "dist/micro-app.min.js",
   "scripts": {
     "demo": "node ./webpack/node.demo.js",
@@ -12,8 +12,9 @@
     "url": "git+https://github.com/micro-app/micro-app.git"
   },
   "keywords": [
-    "micro-app",
-    "web-app"
+    "micro",
+    "web-app",
+    "micro-app"
   ],
   "author": {
     "name": "lixinliang",
