@@ -1,10 +1,14 @@
+/**
+ * [Like a fallback]
+ * @param  {[Object]} microApp [microApp]
+ */
 exports.failover = function ( microApp ) {
     [
-        'hash',
+        'data',
         'filter',
     ].forEach(( methodName ) => {
         microApp[methodName] = function () {
-            warn(`"${ methodName }" is invalid in this browser.`);
+            console.warn(`micro-app: "${ methodName }" is invalid in this browser.`);
             return this;
         };
     });

@@ -1,19 +1,18 @@
 import {
-    // A shortcut to define static property
-    defineStaticProperty,
+    // Define static property
+    define,
 } from './util';
 
 exports.override = function ( name, handler ) {
     let method = this[name];
     if (typeof method == 'function') {
         // `function` will be overrided
-        this::defineStaticProperty(
+        this::define(
             name,
             function () {
                 // `bubbles` as a flag
                 let bubbles = true;
-                let result = handler.call(
-                    this,
+                let result = this::handler(
                     {
                         stopPropagation () {
                             bubbles = false;

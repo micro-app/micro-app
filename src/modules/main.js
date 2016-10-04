@@ -16,8 +16,6 @@ import {
     setAttribute,
     // Extract the filter from expression
     parseFilter,
-    // Listener of hash
-    hashListener,
     // A shortcut to create element
     createElement,
     // Extract the argument from expression
@@ -44,9 +42,6 @@ exports.main = function ( microApp ) {
     const defaultArrayValue = Object.prototype.toString.call([]);
 
     let filterStorage = {};
-
-    // Give a warning if `location.hash` is in use
-    hashListener(['href']);
 
     // Define a filter by `microApp.filter`
     microApp
@@ -102,24 +97,23 @@ exports.main = function ( microApp ) {
 
     microApp
     // Capable, `null` equates disable, others will change to enable
-    ::defineProperty({
-        name : 'capable',
-        onChange ( value, previous ) {
-            microApp::setAttribute(this.name, value);
+    ::prop(
+        'capable',
+        function ( value, previous ) {
+            microApp::setAttribute(this.prop, value);
             if (value === null) {
                 capable::hide();
             }
             if (previous === null) {
                 capable::show();
             }
-        },
-    })
+        }
+    )
     // StatusBarStyle, normally, the value is one of `black-translucent`,`black`,`white`
-    ::defineProperty({
-        name : 'statusBarStyle',
-        hyphenName : camel2hyphen('statusBarStyle'),
-        onChange ( value, previous ) {
-            microApp::setAttribute(this.hyphenName, value);
+    ::prop(
+        'statusBarStyle',
+        function ( value, previous ) {
+            microApp::setAttribute(this.prop, value);
             statusBarStyle::setAttribute('content', value);
             if (value === null) {
                 statusBarStyle::hide();
@@ -127,8 +121,8 @@ exports.main = function ( microApp ) {
             if (previous === null) {
                 statusBarStyle::show();
             }
-        },
-    })
+        }
+    )
     // Title, the app's name
     ::defineProperty({
         name : 'title',

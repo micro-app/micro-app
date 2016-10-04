@@ -35,32 +35,28 @@ if (device == 'phone') {
     splash[width] = 320;
     splash[height] = 480;
     [
-        {
-            width : 320,
-            height : 568,
-        },
-        {
-            width : 375,
-            height : 667,
-        },
-        {
-            width : 414,
-            height : 736,
-        },
-    ].forEach(function ( type ) {
-        if (matchMedia(`(${ width }:${ type.width }px)and(${ height }:${ type.height }px)`).matches) {
-            splash[width] = type.width;
-            splash[height] = type.height;
+        [320, 568],
+        [375, 667],
+        [414, 736],
+    ].forEach(function ( size ) {
+        if (matchMedia(`(${ width }:${ size[0] }px)and(${ height }:${ size[1] }px)`).matches) {
+            splash[width] = size[0];
+            splash[height] = size[1];
         }
     });
-    splash[width] += 'px';
-    splash[height] += 'px';
 } else {
-    splash[width] = '768px';
-    splash[height] = '1024px';
+    splash[width] = 768;
+    splash[height] = 1024;
 }
+splash[width] += 'px';
+splash[height] += 'px';
 splash['-webkit-device-pixel-ratio'] = devicePixelRatio;
 
+/**
+ * [Auto computed the app icon or splash size of this device]
+ * @param  {[String]} type [icon or splash]
+ * @return {[Object]}      [result of autosize]
+ */
 exports.autosize = function ( type ) {
     if (type == 'icon') {
         let sizes = icon[device][os][hdpi];

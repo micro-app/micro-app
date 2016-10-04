@@ -12,14 +12,13 @@ const banner =
 @Update ${ moment().format('YYYY-MM-DD h:mm:ss a') }`;
 
 const filename = packageJson.name;
-const moduleName = 'microApp';
 
 module.exports = {
     entry : `./src/${ filename }.js`,
     output : {
         path : './dist/',
         filename : `${ filename }.min.js`,
-        library : `${ moduleName }`,
+        library : filename.replace(/-./g, ( match ) => match[1].toUpperCase()),
         libraryTarget : 'umd',
     },
     extensions : ['.js'],

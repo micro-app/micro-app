@@ -12,8 +12,9 @@
     "url": "git+https://github.com/micro-app/micro-app.git"
   },
   "keywords": [
-    "micro-app",
-    "web-app"
+    "micro",
+    "web-app",
+    "micro-app"
   ],
   "author": {
     "name": "lixinliang",

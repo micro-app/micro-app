@@ -1,32 +1,33 @@
-let { userAgent } = require('./modules/util');
+// let { userAgent } = require('./modules/util');
 
 // Namespace
-let microApp = document.querySelector('script[micro-app]');
-if (!microApp) {
-    // Create micro-app element
-    let {
-        show,
-        createElement,
-    } = require('./modules/util');
-    microApp = createElement('<script micro-app>')::show();
-}
+// let microApp = document.querySelector('script[micro-app]');
+// if (!microApp) {
+//     // Create micro-app element
+//     let {
+//         show,
+//         createElement,
+//     } = require('./modules/util');
+//     microApp = createElement('<script micro-app>')::show();
+// }
 
-if (userAgent.is.ios) {
-    // Detect the browser
-    if (userAgent.is.safari) {
-        // It looks like in Safari
-        require('./modules/main').main(microApp);
-    } else if (navigator.standalone) {
-        // That means website running in web-app
-        require('./modules/standalone').standalone(microApp);
-    } else {
-        // Open in other browser
-        require('./modules/util').failover(microApp);
-    }
-} else {
-    require('./modules/util').failover(microApp);
-}
-
+// if (userAgent.is.ios) {
+//     // Detect the browser
+//     if (userAgent.is.safari) {
+//         // It looks like in Safari
+//         require('./modules/main').main(microApp);
+//     } else if (navigator.standalone) {
+//         // That means website running in web-app
+//         require('./modules/standalone').standalone(microApp);
+//     } else {
+//         // Open in other browser
+//         require('./modules/util').failover(microApp);
+//     }
+// } else {
+//     require('./modules/util').failover(microApp);
+// }
+microApp = [0,1];
+console.log(1);
 module.exports = microApp;
 
 // 尚存问题
