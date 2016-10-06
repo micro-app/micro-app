@@ -2,19 +2,18 @@
 
 let path = require('path');
 let webpack = require('webpack');
-let extractTextPlugin = require('extract-text-webpack-plugin');
+let ExtractText = require('extract-text-webpack-plugin');
 
-const filename = 'micro-app';
+const alias = {};
+const entry = require('./webpack.entry.json');
 
-let entry = require('./entry.js');
-let alias = {};
-alias[filename] = path.join(__dirname, `../src/${ filename }.js`);
+const imageSize = 10240;
 
 module.exports = {
     devtool : '#source-map',
-    entry : entry,
+    entry,
     output : {
-        filename : '[name].js',
+        filename : 'js/[name].js',
         publicPath : '',
     },
     extensions : ['.vue', '.js', '.json', '.scss', '.html'],
@@ -33,15 +32,15 @@ module.exports = {
             },
             {
                 test : /\.(png|jpg|gif|svg)$/,
-                loader : 'url?limit=10240&name=../image/[name].[ext]?[hash]',
+                loader : `url?limit=${ imageSize }&name=../img/[name].[ext]?[hash]`,
             },
             {
                 test : /\.css$/,
-                loader : extractTextPlugin.extract('style', 'css'),
+                loader : ExtractText.extract('style', 'css'),
             },
             {
                 test : /\.scss$/,
-                loader : extractTextPlugin.extract('style', 'css?localIdentName=[local]___[hash:base64:5]!autoprefixer?safe=true!sass?sourceMap!'),
+                loader : ExtractText.extract('style', 'css?localIdentName=[local]___[hash:base64:5]!autoprefixer?browsers=last 2 version!sass'),
             },
             {
                 test : /\.js$/,
@@ -49,18 +48,19 @@ module.exports = {
                 loader : 'babel',
                 query : {
                     presets : ['es2015', 'stage-0'],
+                    // plugins : ['transform-remove-strict-mode'],
                     // plugins: ['transform-runtime'],
                 },
             },
         ],
     },
     plugins : [
-        new extractTextPlugin('[name].css'),
+        new ExtractText('css/[name].css'),
     ],
     vue : {
         loaders : {
-            sass : extractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 2 version!sass?indentedSyntax'),
-            scss : extractTextPlugin.extract('style', 'css!autoprefixer?browsers=last 2 version!sass'),
+            sass : ExtractText.extract('style', 'css!autoprefixer?browsers=last 2 version!sass?indentedSyntax'),
+            scss : ExtractText.extract('style', 'css!autoprefixer?browsers=last 2 version!sass'),
         },
     },
 };
