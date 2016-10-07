@@ -1,19 +1,21 @@
 {
   "name": "micro-app",
-  "version": "0.0.9",
-  "description": "[iOS] Integrated Safari features about web app.",
+  "version": "0.0.10",
+  "description": "[📱iOS] Create Web App Dynamically!! (~9kb)",
   "main": "dist/micro-app.min.js",
   "scripts": {
-    "demo": "node ./webpack/node.demo.js",
-    "build": "node ./webpack/node.build.js"
+    "dev": "node ./webpack/webpack.node.js -dev",
+    "demo": "node ./webpack/webpack.node.js -demo",
+    "build": "node ./webpack/webpack.node.js -build"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/micro-app/micro-app.git"
   },
   "keywords": [
-    "micro-app",
-    "web-app"
+    "micro",
+    "web-app",
+    "micro-app"
   ],
   "author": {
     "name": "lixinliang",
@@ -38,22 +40,24 @@
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
     "fs-extra": "^0.30.0",
-    "jquery": "^3.0.0",
+    "inline-source": "^5.0.0",
+    "inquirer": "^1.1.3",
+    "jquery": "^3.1.1",
     "minifycss-loader": "^0.2.0",
-    "moment": "^2.15.0",
+    "moment": "~2.8.3",
     "node-sass": "^3.7.0",
     "sass-loader": "^3.2.0",
     "shelljs": "^0.7.0",
     "style-loader": "^0.13.1",
     "to-string-loader": "^1.1.4",
     "url-loader": "^0.5.7",
-    "vue": "^1.0.24",
+    "vue": "^1.0.28",
     "vue-hot-reload-api": "^1.3.2",
     "vue-html-loader": "^1.2.2",
     "vue-loader": "^8.5.2",
     "vue-style-loader": "^1.0.0",
     "vue-touch": "^1.1.0",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.16.2"
   }
 }
