@@ -1,3 +1,7 @@
 {
-  "micro-app": "/Users/lixinliang/GitHub/micro-app/src/entry/micro-app.js"
+  "amd/index": "/Users/lixinliang/GitHub/micro-app/demo/amd/entry/index.js",
+  "app-store/index": "/Users/lixinliang/GitHub/micro-app/demo/app-store/entry/index.js",
+  "cmd/index": "/Users/lixinliang/GitHub/micro-app/demo/cmd/entry/index.js",
+  "jquery/index": "/Users/lixinliang/GitHub/micro-app/demo/jquery/entry/index.js",
+  "router/index": "/Users/lixinliang/GitHub/micro-app/demo/router/entry/index.js"
 }

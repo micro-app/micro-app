@@ -46,8 +46,10 @@ let start = () => {
         }
     }
     if (task == 'demo') {
-        cmd = `webpack-dev-server --inline --quiet --devtool eval --progress --colors --content-base ./demo/ --hot --config ./webpack/webpack.demo.js --host 0.0.0.0 --port ${ port }`;
-        step11().then(step12).then(step4).catch(( err ) => {
+        cmd = `webpack-dev-server --content-base ./dist/ --host 0.0.0.0 --port ${ port + 1 }`;
+        step11().then(step12).then(() => {
+            cmd = `webpack-dev-server --inline --quiet --devtool eval --progress --colors --content-base ./demo/ --hot --config ./webpack/webpack.demo.js --host 0.0.0.0 --port ${ port }`;
+        }).then(step4).catch(( err ) => {
             if (/listen EADDRINUSE/.test(err.toString())) {
                 step6().then(step7).then(step8).catch(( err ) => {
                     console.log(err.toString().red);
@@ -318,25 +320,14 @@ let step11 = () => new Promise(( resolve, reject ) => {
 });
 
 /**
- * [step12] shell.exec -- Create copy
- * @return {Promise} create_copy_success
+ * [step12] shell.exec -- Create child process
+ * @return {Promise} create_child_process_success
  */
-let step12 = () => new Promise(( resolve, reject ) => {
+let step12 = () => new Promise(( resolve ) => {
     if (fs.existsSync(outputPath)) {
-        let copyPath = path.join(demoPath, 'dist');
-        if (fs.existsSync(copyPath)) {
-            resolve();
-        } else {
-            let result = shell.exec(`ln -s ${ outputPath } ${ copyPath }`);
-            if (result.code === 0) {
-                resolve();
-            } else {
-                reject(result.stderr);
-            }
-        }
-    } else {
-        reject('output directory is not exists.');
+        shell.exec(cmd, { async : true });
     }
+    resolve();
 });
 
 start();

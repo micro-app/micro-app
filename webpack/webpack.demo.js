@@ -2,17 +2,29 @@
 
 let fs = require('fs');
 let path = require('path');
+let yargs = require('yargs');
 let webpack = require('webpack');
 let ExtractText = require('extract-text-webpack-plugin');
 
+const aliasPath = path.join(__dirname, '../src/entry');
+
 let alias = {};
-let aliasPath = path.join(__dirname, '../src/entry');
 fs.readdirSync(aliasPath).forEach(( filename ) => {
     let file = path.join(aliasPath, filename);
     if (fs.statSync(file).isFile() && path.extname(file) == '.js') {
         alias[path.basename(filename, '.js')] = file;
     }
 });
+
+let proxy = {
+    '/dist' : {
+        target : `http://0.0.0.0:${ yargs.argv.port + 1 }/`,
+        changeOrigin : true,
+        pathRewrite : {
+            '^/dist' : ''
+        },
+    },
+};
 
 const entry = require('./webpack.entry.json');
 
@@ -71,5 +83,8 @@ module.exports = {
             sass : ExtractText.extract('style', 'css!autoprefixer?browsers=last 2 version!sass?indentedSyntax'),
             scss : ExtractText.extract('style', 'css!autoprefixer?browsers=last 2 version!sass'),
         },
+    },
+    devServer : {
+        proxy,
     },
 };
