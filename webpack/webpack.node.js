@@ -11,6 +11,7 @@ let inquirer = require('inquirer');
 const port = 8080;
 const sourcePath = path.join(__dirname, '../src');
 const outputPath = path.join(__dirname, '../dist');
+const demoPath = path.join(__dirname, '../demo');
 
 let cmd;
 
@@ -43,6 +44,18 @@ let start = () => {
                 console.log(err.toString().red);
             });
         }
+    }
+    if (task == 'demo') {
+        cmd = `webpack-dev-server --inline --quiet --devtool eval --progress --colors --content-base ./demo/ --hot --config ./webpack/webpack.demo.js --host 0.0.0.0 --port ${ port }`;
+        step11().then(step12).then(step4).catch(( err ) => {
+            if (/listen EADDRINUSE/.test(err.toString())) {
+                step6().then(step7).then(step8).catch(( err ) => {
+                    console.log(err.toString().red);
+                }).then(start);
+            } else {
+                console.log(err.toString().red);
+            }
+        });
     }
 };
 
@@ -272,6 +285,58 @@ let step10 = ( filepath ) => new Promise(( resolve, reject ) => {
         }
         resolve(result + ' --build=js');
     });
+});
+
+/**
+ * [step11] fse.outputJson -- Create `webpack.entry.json` dynamically
+ * @return {Promise} create_entry_success
+ */
+let step11 = () => new Promise(( resolve, reject ) => {
+    let entry = {};
+    fs.readdir(demoPath, ( err, files ) => {
+        if (err) {
+            reject(err);
+            return;
+        }
+        files.forEach(( filename ) => {
+            let directory = path.join(demoPath, filename);
+            if (fs.statSync(directory).isDirectory()) {
+                let file = path.join(directory, 'entry/index.js');
+                if (fs.existsSync(file)) {
+                    entry[path.join(filename, 'index')] = file;
+                }
+            }
+        });
+        fse.outputJson(path.join(__dirname, 'webpack.entry.json'), entry, ( err ) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(entry);
+        });
+    });
+});
+
+/**
+ * [step12] shell.exec -- Create copy
+ * @return {Promise} create_copy_success
+ */
+let step12 = () => new Promise(( resolve, reject ) => {
+    if (fs.existsSync(outputPath)) {
+        let copyPath = path.join(demoPath, 'dist');
+        if (fs.existsSync(copyPath)) {
+            resolve();
+        } else {
+            let result = shell.exec(`ln -s ${ outputPath } ${ copyPath }`);
+            if (result.code === 0) {
+                resolve();
+            } else {
+                reject(result.stderr);
+            }
+        }
+    } else {
+        reject('output directory is not exists.');
+    }
 });
 
 start();
