@@ -1,7 +1,7 @@
 {
   "name": "micro-app",
   "version": "0.0.10",
-  "description": "[📱iOS] Create Web App Dynamically!! (~9kb)",
+  "description": "[📱iOS] Create Web App Dynamically!! (~xkb)",
   "main": "dist/micro-app.min.js",
   "scripts": {
     "dev": "node ./webpack/webpack.node.js -dev",
@@ -58,6 +58,7 @@
     "vue-style-loader": "^1.0.0",
     "vue-touch": "^1.1.0",
     "webpack": "^1.13.1",
-    "webpack-dev-server": "^1.16.2"
+    "webpack-dev-server": "^1.16.2",
+    "yargs": "^6.0.0"
   }
 }
