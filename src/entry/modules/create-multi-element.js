@@ -1,13 +1,14 @@
 import {
-    // When the type of value is `function`, return its result
+    // Return its value until it is not a function
     NaF,
-    // A shortcut to show or hide the tag
-    show,
+    // Set or remove an attribute
+    attr,
+    // Remove an element
     hide,
-    // A shortcut to set or remove attribute
-    setAttribute,
-    // A shortcut to create element
-    createElement,
+    // Append an element in head
+    show,
+    // Create an element from html code
+    create,
 } from './util';
 
 const { getAttribute } = Element.prototype;
