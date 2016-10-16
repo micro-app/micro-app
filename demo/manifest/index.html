@@ -9,7 +9,7 @@
     <meta http-equiv="Cache-Control" content="no-transform">
     <meta http-equiv="Cache-Control" content="no-siteapp">
     <title> manifest </title>
-    <script micro-app src="/micro-app.min.js" capable icon="icon.jpg#autosize"></script>
+    <script _micro-app src="/dist/micro-app.min.js" capable icon="icon.jpg#autosize"></script>
     <style>
         html,
         body {
@@ -75,9 +75,12 @@
             var message = document.getElementsByTagName('ul')[0];
             function update ( event ) {
                 text.innerHTML = '缓存状态:' + msg[cache.status];
+                var li = document.createElement('li');
                 if (event) {
-                    var li = document.createElement('li');
-                    li.innerHTML = '触发事件:' + event.type;
+                    li.innerHTML = '触发事件:' + event.type + ',' + (+new Date);
+                    message.appendChild(li);
+                } else {
+                    li.innerHTML = '开始监听:' + (+new Date);
                     message.appendChild(li);
                 }
             };
