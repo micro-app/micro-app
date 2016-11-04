@@ -1,65 +1,86 @@
 import {
-    userAgent,
-} from './util';
+    os,
+    mobile,
+} from './user-agent.js';
 
-const { device, os } = userAgent;
-const hdpi = devicePixelRatio > 1 ? 1 : 0;
-
-const icon = {
-    phone : {
-        6 : {
-            0 : '57x57',
-            1 : '114x114',
-        },
-        7 : {
-            0 : '60x60',
-            1 : '120x120',
-        },
-    },
-    pad : {
-        6 : {
-            0 : '72x72',
-            1 : '144x144',
-        },
-        7 : {
-            0 : '76x76',
-            1 : '152x152',
-        },
-    },
-};
+const icon = [
+    // pad
+    [
+        // os <= 6
+        [
+            // low dpi
+            '72x72',
+            // high dpi
+            '144x144',
+        ],
+        // os >= 7
+        [
+            // low dpi
+            '76x76',
+            // high dpi
+            '152x152',
+        ],
+    ],
+    // phone or pod
+    [
+        // os <= 6
+        [
+            // low dpi
+            '57x57',
+            // high dpi
+            '114x114',
+        ],
+        // os >= 7
+        [
+            // low dpi
+            '60x60',
+            // high dpi
+            '120x120',
+        ],
+    ],
+];
 
 let splash = {};
 const width = 'device-width';
 const height = 'device-height';
-if (device == 'phone') {
+if (mobile) {
     splash[width] = 320;
     splash[height] = 480;
     [
-        [320, 568],
-        [375, 667],
-        [414, 736],
-    ].forEach(function ( size ) {
-        if (matchMedia(`(${ width }:${ size[0] }px)and(${ height }:${ size[1] }px)`).matches) {
-            splash[width] = size[0];
-            splash[height] = size[1];
+        {
+            width : 320,
+            height : 568,
+        },
+        {
+            width : 375,
+            height : 667,
+        },
+        {
+            width : 414,
+            height : 736,
+        },
+    ].forEach(( type ) => {
+        if (matchMedia(`(${ width }:${ type.width }px)and(${ height }:${ type.height }px)`).matches) {
+            splash[width] = type.width;
+            splash[height] = type.height;
         }
     });
+    splash[width] += 'px';
+    splash[height] += 'px';
 } else {
-    splash[width] = 768;
-    splash[height] = 1024;
+    splash[width] = '768px';
+    splash[height] = '1024px';
 }
-splash[width] += 'px';
-splash[height] += 'px';
 splash['-webkit-device-pixel-ratio'] = devicePixelRatio;
 
 /**
- * [Auto computed the app icon or splash size of this device]
- * @param  {[String]} type [icon or splash]
- * @return {[Object]}      [result of autosize]
+ * Get the autosize config
+ * @param  {String} type icon/splash
+ * @return {Object} config config
  */
-exports.autosize = function ( type ) {
+export default function ( type ) {
     if (type == 'icon') {
-        let sizes = icon[device][os][hdpi];
+        let sizes = icon[+mobile][+(os > 6)][+(devicePixelRatio > 1)];
         return { sizes };
     }
     if (type == 'splash') {
@@ -67,9 +88,10 @@ exports.autosize = function ( type ) {
         for (let rule in splash) {
             result.push(`(${ rule }:${ splash[rule] })`);
         }
-        if (device == 'pad' || devicePixelRatio == 3) {
-            if (matchMedia('(orientation:landscape)').matches) {
-                result.push('(orientation:landscape)');
+        if (!mobile || devicePixelRatio == 3) {
+            let rule = '(orientation:landscape)';
+            if (matchMedia(rule).matches) {
+                result.push(rule);
             } else {
                 result.push('(orientation:portrait)');
             }
