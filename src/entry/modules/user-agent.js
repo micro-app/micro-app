@@ -1,4 +1,6 @@
-import { userAgent } from './variable.js';
+import {
+    userAgent,
+} from './variable.js';
 
 /**
  * The platform is ios or not
@@ -7,16 +9,22 @@ import { userAgent } from './variable.js';
 export const ios = /\(i[^;]+;( U;)? CPU.+Mac OS X/i.test(userAgent);
 
 /**
+ * The device is mobile(iPhone and iPod) or not
+ * @type {Boolean} mobile
+ */
+export const mobile = !/iPad/i.test(userAgent);
+
+/**
  * The browser is safari or not
  * @type {Boolean} safari
  */
 export const safari = /\bversion\/([0-9.]+(?: beta)?)(?: mobile(?:\/[a-z0-9]+)?)? safari\//i.test(userAgent);
 
 /**
- * The device is mobile(iPhone and iPod) or not
- * @type {Boolean} mobile
+ * Standalone mode or not
+ * @type {Boolean} standalone
  */
-export const mobile = !/iPad/i.test(userAgent);
+export const standalone = !!navigator.standalone;
 
 /**
  * The major version of os
