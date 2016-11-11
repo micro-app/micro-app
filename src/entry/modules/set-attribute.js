@@ -1,10 +1,13 @@
-const { setAttribute, removeAttribute } = Element.prototype;
+const {
+    setAttribute,
+    removeAttribute,
+} = Element.prototype;
 
 /**
  * Set or remove an attribute
- * @param {Element} elem
- * @param {String} attribute
- * @param {AnyType} value
+ * @param {Element} elem target element
+ * @param {String} attribute attribute name
+ * @param {AnyType} value attribute value
  */
 export default function ( elem, attribute, value ) {
     if (value === null) {
