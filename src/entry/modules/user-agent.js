@@ -1,6 +1,4 @@
-import {
-    userAgent,
-} from './variable.js';
+const userAgent = navigator.userAgent;
 
 /**
  * The platform is ios or not
