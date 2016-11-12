@@ -15,7 +15,7 @@
         microApp.filter(
             'log',
             function () {
-                console.log(this, arguments);
+                console.log(this);
             }
         );
         // Return `false` to interrupt the rest filter
@@ -28,9 +28,8 @@
                 }
             }
         );
-        // Use filter by hash `#` and split filters by `|` and past the argument by `()`
-        // The arguments format like JSON
-        microApp.icon = 'icon.jpg#precomposed|log("test1", "test2")|interrupt|log("test3", "test4")';
+        // Use filter by hash `#` and split filters by `|`
+        microApp.icon = 'icon.jpg#precomposed|log|interrupt|autosize';
     </script>
     <style>
         html,
