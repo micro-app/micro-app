@@ -19,12 +19,6 @@ export const mobile = !/iPad/i.test(userAgent);
 export const safari = /\bversion\/([0-9.]+(?: beta)?)(?: mobile(?:\/[a-z0-9]+)?)? safari\//i.test(userAgent);
 
 /**
- * Standalone mode or not
- * @type {Boolean} standalone
- */
-export const standalone = !!navigator.standalone;
-
-/**
  * The major version of os
  * @type {Number} os
  */
