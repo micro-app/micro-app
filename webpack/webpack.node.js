@@ -19,20 +19,19 @@ let start = () => {
     let task = process.argv[2].substring(1);
     if (task == 'dev') {
         cmd = `webpack-dev-server --inline --quiet --devtool eval --progress --colors --content-base ./src/ --hot --config ./webpack/webpack.dev.js --host 0.0.0.0 --port ${ port }`;
-        step3().then(step4).catch(( err ) => {
-            if (/listen EADDRINUSE/.test(err.toString())) {
-                step6().then(step7).then(step8).catch(( err ) => {
-                    console.log(err.toString().red);
-                }).then(start);
-            } else {
-                console.log(err.toString().red);
-            }
-        });
+        step3().then(step4).catch(reboot);
     }
     if (task == 'build') {
-        cmd = 'webpack --progress --colors --config ./webpack/webpack.build.js';
+        let base = 'webpack --progress --colors --config ./webpack/webpack.build.js';
         if (process.argv[3] && process.argv[3] == 'js') {
-            step3().then(step9).then(step10).then(( option ) => cmd += option).then(step1).then(step4).then(() => {
+            let rollupFile;
+            step3().then(step7).then(step11).then(( filepath ) => {
+                return rollupFile = filepath;
+            }).then(step8).then(( option ) => {
+                cmd = base + option;
+            }).then(step1).then(step4).then(() => {
+                cmd = `rm ${ rollupFile }`;
+            }).then(step4).then(() => {
                 console.log('build complete!'.green);
             }).catch((err) => {
                 console.log(err.toString().red);
@@ -47,17 +46,20 @@ let start = () => {
     }
     if (task == 'demo') {
         cmd = `webpack-dev-server --content-base ./dist/ --host 0.0.0.0 --port ${ port + 1 }`;
-        step11().then(step12).then(() => {
+        step9().then(step10).then(() => {
             cmd = `webpack-dev-server --inline --quiet --devtool eval --progress --colors --content-base ./demo/ --hot --config ./webpack/webpack.demo.js --host 0.0.0.0 --port ${ port }`;
-        }).then(step4).catch(( err ) => {
-            if (/listen EADDRINUSE/.test(err.toString())) {
-                step6().then(step7).then(step8).catch(( err ) => {
-                    console.log(err.toString().red);
-                }).then(start);
-            } else {
+        }).then(step4).catch(reboot);
+    }
+    function reboot ( err ) {
+        if (/listen EADDRINUSE/.test(err.toString())) {
+            console.log(`\n${ port } is aleary in use. Ctrl+C to leave or input a PID to kill：`.green);
+            cmd = `lsof -i tcp:${ port }`;
+            step4().then(step6).then(( pid ) => cmd = `kill ${ pid }`).then(step4).catch(( err ) => {
                 console.log(err.toString().red);
-            }
-        });
+            }).then(start);
+        } else {
+            console.log(err.toString().red);
+        }
     }
 };
 
@@ -128,8 +130,8 @@ let step3 = () => new Promise(( resolve, reject ) => {
 });
 
 /**
- * [step4] shell.exec -- Run webpack
- * @return {Promise} run_webpack_success
+ * [step4] shell.exec -- Exec command
+ * @return {Promise} exec_command_success
  */
 let step4 = () => new Promise(( resolve, reject ) => {
     let result = shell.exec(cmd);
@@ -186,24 +188,10 @@ let step5 = () => new Promise(( resolve, reject ) => {
 });
 
 /**
- * [step6] shell.exec -- List open files
- * @return {Promise} list_files_success
- */
-let step6 = () => new Promise(( resolve, reject ) => {
-    console.log(`\n${ port } is aleary in use. Ctrl+C to leave or input a PID to kill：`.green);
-    let result = shell.exec(`lsof -i tcp:${ port }`);
-    if (result.code === 0) {
-        resolve();
-    } else {
-        reject(result.stderr);
-    }
-});
-
-/**
- * [step7] inquirer.prompt -- Get PID
+ * [step6] inquirer.prompt -- Get PID
  * @return {Promise} get_pid_success
  */
-let step7 = () => new Promise(( resolve, reject ) => {
+let step6 = () => new Promise(( resolve, reject ) => {
     inquirer.prompt([{
         type : 'input',
         name : 'pid',
@@ -216,23 +204,10 @@ let step7 = () => new Promise(( resolve, reject ) => {
 });
 
 /**
- * [step8] shell.exec -- Kill PID
- * @return {Promise} kill_pid_success
- */
-let step8 = ( pid ) => new Promise(( resolve, reject ) => {
-    let result = shell.exec(`kill ${ pid }`);
-    if (result.code === 0) {
-        resolve();
-    } else {
-        reject(result.stderr);
-    }
-});
-
-/**
- * [step9] inquirer.prompt -- Get js file
+ * [step7] inquirer.prompt -- Get js file
  * @return {Promise} get_js_success
  */
-let step9 = ( entry ) => new Promise(( resolve, reject ) => {
+let step7 = ( entry ) => new Promise(( resolve, reject ) => {
     let choices = Object.keys(entry);
     if (choices.length) {
         choices.forEach(( file, index ) => {
@@ -263,10 +238,10 @@ let step9 = ( entry ) => new Promise(( resolve, reject ) => {
 });
 
 /**
- * [step10] fs.readFile -- Get js webpack config
+ * [step8] fs.readFile -- Get js webpack config
  * @return {Promise} get_config_success
  */
-let step10 = ( filepath ) => new Promise(( resolve, reject ) => {
+let step8 = ( filepath ) => new Promise(( resolve, reject ) => {
     fs.readFile(filepath, (err, buffer) => {
         if (err) {
             reject(err);
@@ -290,10 +265,10 @@ let step10 = ( filepath ) => new Promise(( resolve, reject ) => {
 });
 
 /**
- * [step11] fse.outputJson -- Create `webpack.entry.json` dynamically
+ * [step9] fse.outputJson -- Create `webpack.entry.json` dynamically
  * @return {Promise} create_entry_success
  */
-let step11 = () => new Promise(( resolve, reject ) => {
+let step9 = () => new Promise(( resolve, reject ) => {
     let entry = {};
     fs.readdir(demoPath, ( err, files ) => {
         if (err) {
@@ -320,14 +295,36 @@ let step11 = () => new Promise(( resolve, reject ) => {
 });
 
 /**
- * [step12] shell.exec -- Create child process
+ * [step10] shell.exec -- Create child process
  * @return {Promise} create_child_process_success
  */
-let step12 = () => new Promise(( resolve ) => {
+let step10 = () => new Promise(( resolve ) => {
     if (fs.existsSync(outputPath)) {
         shell.exec(cmd, { async : true });
     }
     resolve();
+});
+
+/**
+ * [step11] Rollup
+ * @return {Promise} rollup_success
+ */
+let step11 = ( filepath ) => new Promise(( resolve, reject ) => {
+    let src = filepath;
+    let dist = path.join(src, '../', path.basename(src, '.js') + '.rollup.js');
+    cmd = `rollup ${ src } -o ${ dist }`;
+    step4().then(() => {
+        console.log('rollup complete!'.green);
+        let entry = {};
+        entry[path.basename(dist, '.rollup.js')] = dist;
+        fse.outputJson(path.join(__dirname, 'webpack.entry.json'), entry, ( err ) => {
+            if (err) {
+                reject(err);
+                return;
+            }
+            resolve(dist);
+        });
+    });
 });
 
 start();
