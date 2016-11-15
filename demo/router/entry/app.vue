@@ -48,9 +48,9 @@ export default {
         },
         'href' ( val ) {
             if (val) {
-                microApp.href = /^http/.test(val) ? val : 'http://' + val;
+                location.hash = encodeURIComponent(/^http/.test(val) ? val : 'http://' + val);
             } else {
-                microApp.href = null;
+                location.hash = '';
             }
 
         },
