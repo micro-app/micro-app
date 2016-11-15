@@ -28,7 +28,7 @@ export default {
     },
     methods : {
         init () {
-            microApp.href = null;
+            location.hash = '';
             microApp.title = document.title;
             microApp.statusBarStyle = 'black';
             microApp.icon = 'img/app-store.png';
@@ -40,10 +40,10 @@ export default {
             } else {
                 let item = this.list[index];
                 microApp.icon = item.icon;
-                microApp.href = item.href;
                 microApp.title = item.title;
                 microApp.statusBarStyle = item.statusBarStyle;
                 this.selected = index;
+                location.hash = encodeURIComponent(item.href);
             }
         },
     },
