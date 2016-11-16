@@ -14,7 +14,7 @@ export default {
                 'duowan.png',
                 'me.png',
             ],
-        }
+        };
     },
     ready () {
         microApp.capable = true;
