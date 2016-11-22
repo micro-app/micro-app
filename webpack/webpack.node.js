@@ -280,7 +280,7 @@ let step9 = () => new Promise(( resolve, reject ) => {
             if (fs.statSync(directory).isDirectory()) {
                 let file = path.join(directory, 'entry/index.js');
                 if (fs.existsSync(file)) {
-                    entry[path.join(filename, 'index')] = file;
+                    entry[`${ filename }/index`] = file;
                 }
             }
         });
