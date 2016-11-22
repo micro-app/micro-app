@@ -18,7 +18,7 @@ fs.readdirSync(aliasPath).forEach(( filename ) => {
 
 let proxy = {
     '/dist' : {
-        target : `http://0.0.0.0:${ yargs.argv.port + 1 }/`,
+        target : `http://localhost:${ yargs.argv.port + 1 }/`,
         changeOrigin : true,
         pathRewrite : {
             '^/dist' : ''
