@@ -1,8 +1,8 @@
 /*!
  * @ProjectName micro-app
- * @Version 0.1.0
+ * @Version 1.0.1
  * @Author lixinliang(https://github.com/lixinliang)
- * @Update 2016-11-23 10:14:37 am
+ * @Update 2016-11-23 11:27:48 am
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -411,7 +411,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	// Version
-	defineProperty(microApp, 'version', '0.1.0');
+	defineProperty(microApp, 'version', '1.0.1');
 
 	// Define a filter by `microApp.filter`
 	defineProperty(microApp, 'filter', filter);
