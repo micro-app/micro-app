@@ -30,6 +30,8 @@ let start = () => {
             }).then(step8).then(( option ) => {
                 cmd = base + option;
             }).then(step1).then(step4).then(() => {
+                cmd += ' --uglify';
+            }).then(step4).then(() => {
                 cmd = `rm ${ rollupFile }`;
             }).then(step4).then(() => {
                 console.log('build complete!'.green);
