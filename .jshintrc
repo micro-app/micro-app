@@ -1,0 +1,9 @@
+{
+    "browser": true,
+    "expr": true,
+    "elision": true,
+    "loopfunc": true,
+    "lastsemic": true,
+    "validthis": true,
+    "-W018": true
+}
