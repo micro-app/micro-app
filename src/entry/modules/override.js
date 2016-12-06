@@ -1,6 +1,8 @@
 import microApp from './namespace.js';
 import defineProperty from './define-property.js';
 
+const supportConfigurable = Object.getOwnPropertyDescriptor(() => {}, 'name').configurable;
+
 /**
  * Override a function on microApp
  * @param  {String} name function name
@@ -13,8 +15,8 @@ export default function ( name, handler ) {
         microApp,
         name,
         defineProperty(
-            defineProperty(
-                function () {
+            (() => {
+                let anonymous = function () {
                     // `bubbles` as a flag
                     let bubbles = true;
                     let result = handler.call(
@@ -28,10 +30,17 @@ export default function ( name, handler ) {
                     );
                     // Interrupt the function chain by `event.stopPropagation` and give the `result` as return value
                     return bubbles ? method.apply(this, arguments) : result;
-                },
-                'name',
-                name
-            ),
+                };
+                if (supportConfigurable) {
+                    return defineProperty(
+                        anonymous,
+                        'name',
+                        name
+                    );
+                } else {
+                    return anonymous;
+                }
+            })(),
             'toString',
             function toString () { return `function ${ name }() { [native code] }` }
         )

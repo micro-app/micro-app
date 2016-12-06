@@ -18,7 +18,7 @@ import defineAttribute from './modules/define-attribute.js';
 import createMultiElement from './modules/create-multi-element.js';
 
 // Version
-defineProperty(microApp, 'version', '@VERSION');
+defineProperty(microApp, 'version', process.env.VERSION);
 
 // Define a filter by `microApp.filter`
 defineProperty(microApp, 'filter', filter);
