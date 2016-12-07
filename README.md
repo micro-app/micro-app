@@ -52,7 +52,7 @@ $ npm run demo
 
 * If you assign a `null`, that means remove the feature.
 
-##### capable
+#### #capable
 
 * `microApp.capable = true`;
 
@@ -60,7 +60,7 @@ $ npm run demo
 <meta name="apple-mobile-web-app-capable" content="yes">
 ```
 
-##### status-bar-style
+#### #status-bar-style
 
 * `microApp.statusBarStyle = 'black-translucent'`;
 * Both `microApp["status-bar-style"]` and `microApp.statusBarStyle` are same.
@@ -69,7 +69,7 @@ $ npm run demo
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 ```
 
-##### title
+#### #title
 
 * `microApp.title = 'title'`;
 
@@ -77,7 +77,7 @@ $ npm run demo
 <meta name="apple-mobile-web-app-title" content="title">
 ```
 
-##### icon
+#### #icon
 
 * `microApp.icon = 'icon.jpg'`;
 * Support multiple.
@@ -86,7 +86,7 @@ $ npm run demo
 <link rel="apple-touch-icon" href="icon.jpg">
 ```
 
-##### splash
+#### #splash
 
 * `microApp.icon = 'splash.jpg'`;
 * Support multiple.
@@ -102,24 +102,17 @@ Use `Array` and `Object` to set multiple `icon` and `splash`.
 
 ## Methods
 
-##### filter( name: String, handler: Funtion )
+#### #filter
+> microApp.filter( filterName : String, filterHandler : Function ) => microApp : microApp
+
 * Define a filter, filter the url about icon and splash.
-
-| Argument | Description |
-| --- | --- |
-| String | filter name |
-| Function | filter handler |
-
-| Return values |
-| --- |
-| microApp |
 
 ## Filters
 
-##### #precomposed
+#### #precomposed
 * Set the attribute `rel="apple-touch-icon-precomposed"`.
 
-##### #autosize
+#### #autosize
 * Set `sizes` or `media` after computed.
 
 ## License
