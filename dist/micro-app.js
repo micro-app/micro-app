@@ -1,8 +1,8 @@
 /*!
  * @ProjectName micro-app
- * @Version 1.0.1
+ * @Version 1.0.2
  * @Author lixinliang(https://github.com/lixinliang)
- * @Update 2016-11-23 11:27:48 am
+ * @Update 2016-12-07 9:11:44 am
  */
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
@@ -58,7 +58,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ([
 /* 0 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
 
@@ -251,6 +251,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    });
 	};
 
+	var supportConfigurable = Object.getOwnPropertyDescriptor(function () {}, 'name').configurable;
+
 	/**
 	 * Override a function on microApp
 	 * @param  {String} name function name
@@ -259,17 +261,24 @@ return /******/ (function(modules) { // webpackBootstrap
 	var override = function override(name, handler) {
 	    var method = microApp[name];
 	    // Reset the method name
-	    defineProperty(microApp, name, defineProperty(defineProperty(function () {
-	        // `bubbles` as a flag
-	        var bubbles = true;
-	        var result = handler.call(this, {
-	            stopPropagation: function stopPropagation() {
-	                bubbles = false;
-	            }
-	        }, arguments);
-	        // Interrupt the function chain by `event.stopPropagation` and give the `result` as return value
-	        return bubbles ? method.apply(this, arguments) : result;
-	    }, 'name', name), 'toString', function toString() {
+	    defineProperty(microApp, name, defineProperty(function () {
+	        var anonymous = function anonymous() {
+	            // `bubbles` as a flag
+	            var bubbles = true;
+	            var result = handler.call(this, {
+	                stopPropagation: function stopPropagation() {
+	                    bubbles = false;
+	                }
+	            }, arguments);
+	            // Interrupt the function chain by `event.stopPropagation` and give the `result` as return value
+	            return bubbles ? method.apply(this, arguments) : result;
+	        };
+	        if (supportConfigurable) {
+	            return defineProperty(anonymous, 'name', name);
+	        } else {
+	            return anonymous;
+	        }
+	    }(), 'toString', function toString() {
 	        return 'function ' + name + '() { [native code] }';
 	    }));
 	};
@@ -411,7 +420,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	// Version
-	defineProperty(microApp, 'version', '1.0.1');
+	defineProperty(microApp, 'version', ("1.0.2"));
 
 	// Define a filter by `microApp.filter`
 	defineProperty(microApp, 'filter', filter);
