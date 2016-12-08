@@ -2,6 +2,7 @@
 [![npm](https://img.shields.io/npm/v/micro-app.svg?style=flat-square)](https://www.npmjs.org/package/micro-app)
 [![npm](https://img.shields.io/npm/dm/micro-app.svg?style=flat-square)](https://www.npmjs.org/package/micro-app)
 [![Travis CI](https://img.shields.io/travis/micro-app/micro-app.svg?style=flat-square)](https://travis-ci.org/micro-app/mmicro-app)
+[![bitHound Code](https://www.bithound.io/github/micro-app/micro-app/badges/code.svg)](https://www.bithound.io/github/micro-app/micro-app)
 
 # micro-app
 > (<5kb) [📱iOS] Create Progressive Web App Dynamically.

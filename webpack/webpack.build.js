@@ -9,7 +9,6 @@ let ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 
 let HtmlWebpackPlugin = require('html-webpack-plugin');
 let HtmlReplaceWebpackPlugin = require('html-replace-webpack-plugin');
-// let HtmlWebpackInlineSourcePlugin = require('html-webpack-inline-source-plugin');
 
 const entry = require('./webpack.entry.json');
 const packageJson = require('../package.json');
@@ -50,8 +49,9 @@ let config = {
             };
         } else {
             return {
-                path : './dist/js/',
-                filename : '[name].js',
+                path : './dist/',
+                filename : 'js/[name].js',
+                publicPath : '',
             };
         }
     })(),
@@ -132,13 +132,21 @@ if (process.argv.build == 'js') {
             comments : false,
         },
     }));
-    config.plugins.push(new ExtractTextWebpackPlugin('../css/[name].css'));
+    config.plugins.push(new ExtractTextWebpackPlugin('css/[name].css'));
     fs.readdirSync(sourcePath).forEach(( filename ) => {
-        if (/\.(html|appcache)$/.test(filename)) {
+        if (/\.appcache$/.test(filename)) {
             config.plugins.push(new HtmlWebpackPlugin({
                 minify : false,
                 inject : false,
-                filename : path.join('..', filename),
+                filename,
+                template : path.join(sourcePath, filename),
+            }));
+        }
+        if (/\.html$/.test(filename)) {
+            config.plugins.push(new HtmlWebpackPlugin({
+                minify : false,
+                inject : false,
+                filename,
                 template : path.join(sourcePath, filename),
             }));
         }
@@ -151,7 +159,6 @@ if (process.argv.build == 'js') {
         });
     });
     config.plugins.push(new HtmlReplaceWebpackPlugin(result));
-    // config.plugins.push(new HtmlWebpackInlineSourcePlugin());
 }
 
 module.exports = config;
