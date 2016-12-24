@@ -2,7 +2,6 @@
 
 let fs = require('fs');
 let path = require('path');
-let yargs = require('yargs');
 let webpack = require('webpack');
 let autoprefixer = require('autoprefixer');
 let ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
@@ -10,19 +9,14 @@ let ExtractTextWebpackPlugin = require('extract-text-webpack-plugin');
 const entry = require('./webpack.entry.json');
 const packageJson = require('../package.json');
 
-const alias = (() => {
-    const aliasPath = path.join(__dirname, '../src/entry');
-    let alias = {};
-    fs.readdirSync(aliasPath).forEach(( filename ) => {
-        let file = path.join(aliasPath, filename);
-        if (fs.statSync(file).isFile() && path.extname(file) == '.js') {
-            alias[path.basename(filename, '.js')] = file;
-        }
-    });
-    return alias;
-})();
+const alias = {
+    'micro-app' : path.join(__dirname, '../src/entry/micro-app.js'),
+};
 const imageSize = 10240;
-const constant = {};
+const constant = {
+    NAME : packageJson.name,
+    VERSION : packageJson.version,
+};
 
 let config = {
     devtool : '#source-map',
@@ -31,7 +25,7 @@ let config = {
         filename : '[name].js',
         publicPath : '',
     },
-    extensions : ['.vue', '.js', '.json', '.scss'],
+    extensions : ['.vue', '.js', '.coffee', '.json', '.scss'],
     resolve : {
         alias,
     },
@@ -40,6 +34,10 @@ let config = {
             {
                 test : /\.vue$/,
                 loader : 'vue',
+            },
+            {
+                test : /\.html$/,
+                loader : 'raw',
             },
             {
                 test : /\.(png|jpg|gif|svg)$/,
@@ -62,6 +60,14 @@ let config = {
                     // plugins : ['transform-remove-strict-mode'],
                     // plugins: ['transform-runtime'],
                 },
+            },
+            {
+                test : /\.coffee/,
+                loader : 'coffee',
+            },
+            {
+                test : /\.(coffee\.md|litcoffee)$/,
+                loader : 'coffee?literate',
             },
         ],
     },
@@ -87,11 +93,19 @@ let config = {
     },
     devServer : {
         proxy : {
-            '/dist' : {
-                target : `http://localhost:${ yargs.argv.port + 1 }/`,
-                changeOrigin : true,
-                pathRewrite : {
-                    '^/dist' : ''
+            '/' : {
+                bypass ( req, res ) {
+                    if (/^\/micro-app\.js($|\?)/.test(req.url)) {
+                        let file = path.join(__dirname, '../dist/micro-app.js');
+                        if (fs.existsSync(file)) {
+                            res.writeHead(200, { 'Content-Type' : 'application/x-javascript' });
+                            res.end(fs.readFileSync(file, 'utf8'));
+                        } else {
+                            return req.url;
+                        }
+                    } else {
+                        return req.url;
+                    }
                 },
             },
         },
