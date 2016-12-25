@@ -123,6 +123,7 @@ module.exports = window.microApp = microApp;
 // 尚存问题
 // 1. 点击分享按钮后 Safari会检索页面对应meta标签并且写入变量存储 无论点击分享按钮多少次以及后续操作包括添加到桌面 都不会重新修改变量 导致icon无法动态修改
 // 2. 添加bookmark或者favorite后 点击分享按钮 应用icon会根据 添加到bookmark时为准 而不会去检索页面的meta标签
+// 3. 应用退出后台后 页面的内存会被马上释放
 
 // 体验优化
 // 1. 用户安装时触发的事件
