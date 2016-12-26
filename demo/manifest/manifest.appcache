@@ -1,10 +1,10 @@
 CACHE MANIFEST
-# 2016-10-31 18:30:19
+# 2016-12-21 10:51:34
 
 CACHE:
 /manifest/index.html
 /manifest/icon.jpg
-/dist/micro-app.min.js
+/micro-app.js
 
 NETWORK:
 *
