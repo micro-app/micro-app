@@ -1,5 +1,4 @@
 import './index.scss';
-import $ from 'jquery';
 import microApp from 'micro-app';
 
 // You can configure by `setAttribute`
