@@ -1,6 +1,6 @@
 import './index.scss';
 
-requirejs(['/dist/micro-app.min.js'], (microApp) => {
+requirejs(['/micro-app.js'], (microApp) => {
 
     microApp.capable = true;
     microApp.title = 'Demo of AMD';
