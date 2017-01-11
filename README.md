@@ -13,7 +13,7 @@
 
 ## Getting started
 ```
-$ npm install micro-app
+$ npm install --save-dev micro-app
 ```
 
 ## Demo
